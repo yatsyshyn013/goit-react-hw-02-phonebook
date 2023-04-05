@@ -1,44 +1,68 @@
 import React, { Component } from 'react'
-import { Formik } from 'formik';
+
  import { PhoneBookContainer } from './App.styled';
+import { ContactForm } from 'components/ContactForm/ContactForm';
+import { ContactList } from 'components/ContactList/ContactList';
+import { Filter } from 'components/Filter/Filter';
+
+
 
 
 class App extends Component {
-  state = {  } 
-  render() { 
-
-    const initialValues = {
-      contacts: [],
-      name: ''
+  state = {
+  contacts: [],
+  filter: '',
+} 
+  
+  onAddContactBtn = (newContact) => {
+    
+      this.setState(prevState => ({
+        contacts: [...prevState.contacts, newContact]
+        }
+      ))
     }
+  
+  
+  getFilteredContacts = () => {
+    const { filter, contacts } = this.state;
+    const normalizeTarget = filter.toLowerCase();
+    return contacts.filter(contact => contact.name.toLowerCase().includes(normalizeTarget));
+    // console.log(filteredContacts);
 
+  }
+
+  deleteButton = id => {
+    
+    this.setState(prevState => ({
+        contacts: prevState.contacts.filter(contact => contact.id !== id)
+      }
+    ))
+  }
+
+  
+  render() { 
+    const { filter, contacts } = this.state;
+    const visibleContacts = this.getFilteredContacts();
+
+  
     return (
-      <PhoneBookContainer
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101'
-      }}
-      >
+      <PhoneBookContainer>
         <h1>PhoneBook</h1>
-        <Formik initialValues={initialValues}>
-          <form action="">
-            <label htmlFor="name">
-              Name
-                    <input
-                        type="text"
-                        name="name"
-                        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-                        title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-                        required
-                          />
-            </label>
-            <button type="submit">Add contact</button>
-          </form>
-      </Formik>
+        <ContactForm
+          contacts={this.state.contacts}
+          onAddContactBtn={this.onAddContactBtn}
+        />
+
+        <h2>Contacts</h2>
+        <Filter
+          onChange={e => {
+            this.setState({ filter: e.target.value })}}
+          value={this.state.filter}
+        />
+        <ContactList
+          contacts={visibleContacts}
+          deleteButton={this.deleteButton}
+        />
     </PhoneBookContainer>
     );
   }
