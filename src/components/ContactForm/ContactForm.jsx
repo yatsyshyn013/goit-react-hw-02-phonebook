@@ -2,12 +2,12 @@ import { Formik, Field } from 'formik';
 import * as yup from 'yup';
 import { nanoid } from 'nanoid'
 import { LabelText, ButtonForm, Label, FormComponent } from './ContactForm.styled';
+import PropTypes from 'prop-types';
 
 export function ContactForm({ contacts, onAddContactBtn }) {
    
 
     const initialValues = {
-    //   contacts: [],
         name: '',
         number: '',
     }
@@ -27,8 +27,7 @@ export function ContactForm({ contacts, onAddContactBtn }) {
             
         }
 
-        const isDuplicate = contacts.some( contact => contact.name.toLowerCase() === data.name.toLowerCase()
-        )
+        const isDuplicate = contacts.some( contact => contact.name.toLowerCase() === data.name.toLowerCase())
 
         if (isDuplicate) {
             alert(`${data.name} is already in contacts`)
@@ -38,17 +37,6 @@ export function ContactForm({ contacts, onAddContactBtn }) {
            onAddContactBtn(data);
             resetForm();
         }
-       
-
-        // console.log(data);
-
-        
-
-
-   
-        
-               
-        
     }
 
     return (
@@ -86,4 +74,15 @@ export function ContactForm({ contacts, onAddContactBtn }) {
    )
 } 
 
-// onClick={() => onAddContactBtn(data)}
+
+ContactForm.propTypes = {
+    contacts: PropTypes.arrayOf(
+        PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            number: PropTypes.string.isRequired,
+        }).isRequired
+        
+    ).isRequired,
+    onAddContactBtn: PropTypes.func.isRequired,
+}

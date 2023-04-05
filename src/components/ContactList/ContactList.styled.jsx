@@ -20,7 +20,6 @@ export const ContactListBtn = styled.button`
      background-color: #fff;
     border: 1px grey solid;
     border-radius: 4px;
-    /* padding: 5px; */
 
     :hover {
         background-color: #337ff8;

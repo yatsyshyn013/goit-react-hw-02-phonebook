@@ -15,7 +15,6 @@ class App extends Component {
 } 
   
   onAddContactBtn = (newContact) => {
-    
       this.setState(prevState => ({
         contacts: [...prevState.contacts, newContact]
         }
@@ -32,7 +31,6 @@ class App extends Component {
   }
 
   deleteButton = id => {
-    
     this.setState(prevState => ({
         contacts: prevState.contacts.filter(contact => contact.id !== id)
       }
@@ -49,7 +47,7 @@ class App extends Component {
       <PhoneBookContainer>
         <h1>PhoneBook</h1>
         <ContactForm
-          contacts={this.state.contacts}
+          contacts={contacts}
           onAddContactBtn={this.onAddContactBtn}
         />
 
@@ -57,7 +55,7 @@ class App extends Component {
         <Filter
           onChange={e => {
             this.setState({ filter: e.target.value })}}
-          value={this.state.filter}
+          value={filter}
         />
         <ContactList
           contacts={visibleContacts}

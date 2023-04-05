@@ -1,4 +1,5 @@
 import { FindArea } from 'components/Filter/Filter.styled';
+import PropTypes from 'prop-types';
 
 export function Filter({onChange, value}) {
 
@@ -17,4 +18,9 @@ export function Filter({onChange, value}) {
                 </label>
     )
    
+}
+
+Filter.propTypes = {
+    onChange: PropTypes.func.isRequired,
+    value: PropTypes.string.isRequired
 }
